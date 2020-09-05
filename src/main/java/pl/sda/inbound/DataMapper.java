@@ -2,7 +2,7 @@ package pl.sda.inbound;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pl.sda.model.LocationDTO;
+import pl.sda.dto.LocationDTO;
 
 public class DataMapper {
 

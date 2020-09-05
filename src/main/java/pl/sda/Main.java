@@ -17,3 +17,5 @@ public class Main {
 
 
 }
+//dto=model
+//komunikacja z bazą w pakiecie dao
