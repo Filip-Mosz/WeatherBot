@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -26,6 +27,7 @@ private String Id;
 private String name;
 private String GPS_location;
 @NonNull
+@Column(name = "country_code")
 private String countryCode;
 
 }

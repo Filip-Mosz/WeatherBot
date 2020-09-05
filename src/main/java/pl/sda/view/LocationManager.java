@@ -1,24 +1,30 @@
 package pl.sda.view;
 
-import pl.sda.EntityService;
+import org.hibernate.Transaction;
 import pl.sda.model.Coordinates;
 import pl.sda.model.Location;
+import pl.sda.service.EntityService;
 import pl.sda.view.table.TablePrinter;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class LocationManager {
-    private List<Location> locations = new ArrayList<>();
+    private final List<Location> locations = new ArrayList<>();
+
     {
-        locations.add(new Location("3099424", "Gdynia", (new Coordinates(18.531879,54.51889).toString()),"PL"));
+        locations.add(new Location("3099424", "Gdynia", (new Coordinates(18.531879, 54.51889).toString()), "PL"));
 
         Location gdynia = locations.get(0);
         EntityService.create();
-
+        EntityTransaction transaction = EntityService.entityManagerFactory().createEntityManager().getTransaction();
+        transaction.begin();
         EntityService.entityManagerFactory().createEntityManager().persist(gdynia);
+        transaction.commit();
         EntityService.close();
     }
     //LocationDAO dao = new LocationDAO; //[powinno zwracać lstę]
@@ -29,9 +35,8 @@ public class LocationManager {
                 .withData(locations)
                 .withColumn("ID", location -> ((Location) location).getId())
                 .withColumn("Współrzędne", location -> ((Location) location).getGPS_location())
-                .withColumn("Kraj", location -> ((Location)location).getCountryCode())
-                .withColumn("Nazwa", location -> ((Location) location).getName())
-                ;
+                .withColumn("Kraj", location -> ((Location) location).getCountryCode())
+                .withColumn("Nazwa", location -> ((Location) location).getName());
 
         tablePrinter.printTable();
 

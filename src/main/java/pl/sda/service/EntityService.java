@@ -1,4 +1,4 @@
-package pl.sda;
+package pl.sda.service;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

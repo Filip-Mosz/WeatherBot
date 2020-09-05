@@ -1,4 +1,3 @@
-//YAGNI
 package pl.sda.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

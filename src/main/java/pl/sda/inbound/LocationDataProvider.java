@@ -1,3 +1,5 @@
+//to działą
+//ToDo zaglębić się, żeby wykorzystać to i wysłać do bazy
 package pl.sda.inbound;
 
 import java.io.*;
