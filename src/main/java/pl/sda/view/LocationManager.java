@@ -28,9 +28,9 @@ public class LocationManager {
         TablePrinter<Location> tablePrinter = new TablePrinter<Location>()
                 .withData(locations)
                 .withColumn("ID", location -> ((Location) location).getId())
-                .withColumn("Nazwa", location -> ((Location) location).getName())
-                .withColumn("Współrzędne", location -> ((Location) location).getGPS_location().toString())
+                .withColumn("Współrzędne", location -> ((Location) location).getGPS_location())
                 .withColumn("Kraj", location -> ((Location)location).getCountryCode())
+                .withColumn("Nazwa", location -> ((Location) location).getName())
                 ;
 
         tablePrinter.printTable();
