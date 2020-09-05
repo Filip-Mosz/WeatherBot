@@ -20,10 +20,7 @@ public class Coordinates {
 
     @Override
     public String toString() {
-        return "Coordinates{" +
-                "longitude=" + longitude +
-                ", latitude=" + latitude +
-                '}';
+        return  longitude + ", " + latitude;
     }
 
 }

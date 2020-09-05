@@ -16,7 +16,7 @@ public class Location {
     }
 
     public Location(String id, String name, String GPS_location, @NonNull String countryCode) {
-        Id = id;
+        this.Id = id;
         this.name = name;
         this.GPS_location = GPS_location;
         this.countryCode = countryCode;

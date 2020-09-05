@@ -2,21 +2,24 @@ package pl.sda.dao;
 
 import pl.sda.model.Location;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.List;
 
 public class LocationDAO {
     private String Id;
     private String name;
     private String GPS_location;
     private String countryCode;
-    
-    private Connection dbConnection;
 
-    public LocationDAO(Connection connection) throws SQLException {
-        this.dbConnection = connection;
+    private List<Location> locations;
+
+    private static final String URL = "jdbc:mysql://localhost:3306/weatherbot?serverTimezone=Europe/Warsaw";
+    private static final String USER = "weatherbot";
+    private static final String PASSWORD = "weatherbot";
+    private Connection dbConnection = DriverManager.getConnection(URL, USER, PASSWORD);;
+
+    public LocationDAO() throws SQLException {
+
 
     }
     public boolean create(Location location) {//works
@@ -47,7 +50,7 @@ public class LocationDAO {
             statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
             ResultSet resultSet = statement.getResultSet();
             while (resultSet.next()) {
-                this.name = resultSet.getString(3);
+                this.name = resultSet.getString("name");
                 this.Id = resultSet.getString("Id");
                 this.countryCode = resultSet.getString("country_code");
                 this.GPS_location = resultSet.getString("GPS_location");
@@ -57,9 +60,15 @@ public class LocationDAO {
             e.printStackTrace();
             return new Location();
         }
-        return new Location(this.name,
-                this.countryCode,
+        locations.add(new Location(
                 this.Id,
+                this.name,
+                this.countryCode,
+                this.GPS_location));
+        return new Location(
+                this.Id,
+                this.name,
+                this.countryCode,
                 this.GPS_location);
     }
 
@@ -100,5 +109,9 @@ public class LocationDAO {
         }
 
         return true;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
     }
 }
