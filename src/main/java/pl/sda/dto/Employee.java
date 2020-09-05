@@ -1,4 +1,5 @@
 package pl.sda.dto;
+//tylko szablon
 
 import java.util.Objects;
 

@@ -20,8 +20,9 @@ public class ConsoleManager {
     private void printMenu() {
         clrscr();
         System.out.println("Menu:");
-        System.out.println("1 - Lista pracowników");
-        System.out.println("2 - Dodaj pracownika");
+        System.out.println("1 - Lista lokacji");
+        System.out.println("2 - Dodaj lokację");
+        System.out.println("3 - Sprawdź pogodę");
         System.out.println();
         System.out.println("q - wyjście");
 
