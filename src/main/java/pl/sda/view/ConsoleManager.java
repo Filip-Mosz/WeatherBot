@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class ConsoleManager {
 
-    private EmployeeManager employeeManager = new EmployeeManager();
+    private LocationManager locationManager = new LocationManager();
 
     public void start() {
         char userChoice = ' ';
@@ -42,11 +42,11 @@ public class ConsoleManager {
     private void executeAction(char userChoice) {
         switch (userChoice) {
             case '1':
-                employeeManager.printList();
+                locationManager.printList();
                 pressEnterKeyToContinue();
                 break;
             case '2':
-                employeeManager.addEmployee();
+                locationManager.addLocation();
 
         }
     }
