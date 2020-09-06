@@ -4,6 +4,7 @@ import pl.sda.dao.LocationDAO;
 import pl.sda.model.Coordinates;
 import pl.sda.model.Location;
 import pl.sda.service.EntityService;
+import pl.sda.service.LocationMenu;
 import pl.sda.view.table.TablePrinter;
 
 import javax.persistence.EntityManager;
@@ -45,32 +46,40 @@ public class LocationManager {
         EntityService.create();
 
         Location addedLocation = new Location();
-        Coordinates coordinates = new Coordinates();
-        Scanner scan = new Scanner(System.in);
+
 
         EntityManager entityManager = EntityService.entityManagerFactory().createEntityManager();
         EntityTransaction transaction = EntityService.entityManagerFactory().createEntityManager().getTransaction();
 
         ConsoleManager.clrscr();
-        System.out.print("Type ID: ");
-        addedLocation.setId(new Scanner(System.in).nextLine());
-        System.out.print("Type name: ");
-        addedLocation.setName(scan.nextLine());
-        System.out.print("Type longitude: ");
-        coordinates.setLongitude(Double.parseDouble(scan.next()));
-        System.out.print("Type latitude: ");
-        coordinates.setLatitude(Double.parseDouble(scan.next()));
-        addedLocation.setGPS_location(coordinates.toString());
-        //ToDo koordynawy mają być podawane w formule N0,0 W0,0
-        System.out.print("Type two letters country code: "); //kusi na enum
-        Scanner scan2 = new Scanner(System.in);
-        addedLocation.setCountryCode(scan2.nextLine());
+        boolean locationIsNull;
+        do {
+            LocationMenu.printMenu(addedLocation);
+            locationIsNull = false;
+            if (
+                    addedLocation.getName().equals("") ||
+                            addedLocation.getGPS_location().equals("") ||
+                            addedLocation.getCountryCode().equals("") ||
+                            addedLocation.getId().equals("")
+            ) {
+                System.out.println("No value may be empty. Try again.");
+                locationIsNull = true;
+                try {
+                    Thread.sleep(2500);
+                } catch (InterruptedException e) {
+                    System.out.println("Sleeping thread interrupted!");
+                }
+            }
+        } while (locationIsNull);
+        locations.add(addedLocation);
+
 
         transaction.begin();
         locationDAO.create(addedLocation);
-        locations.add(addedLocation);
         entityManager.persist(addedLocation);
         transaction.commit();
         EntityService.close();
     }
+
+
 }

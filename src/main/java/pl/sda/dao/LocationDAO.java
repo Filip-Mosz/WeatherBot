@@ -36,7 +36,8 @@ public class LocationDAO {
             statement.executeUpdate();//ZAJEBISCIE WAZNA LINIJKA!!!!!
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.err.print("DataBase Error! Location not added");
             return false;
         }
         return true;

@@ -10,7 +10,7 @@
             <property name="javax.persistence.jdbc.user" value="weatherbot" />
             <property name="javax.persistence.jdbc.password" value="weatherbot" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
-            <property name="hibernate.hbm2ddl.auto" value="none" /> <!-- Sposób generowania schematu DDL create usuwało zawartość tabeli-->
+            <property name="hibernate.hbm2ddl.auto" value="update" /> <!-- Sposób generowania schematu DDL create usuwało zawartość tabeli-->
             <property name="hibernate.show_sql" value = "false" /> <!-- Logowanie zapytań SQL -->
         </properties>
     </persistence-unit>
