@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LocationManager {
-    private final List<Location> locations = new ArrayList<>();
+    private List<Location> locations = new ArrayList<>();
 
 
-    LocationDAO locationDAO; //[powinno zwracać lstę]
+    LocationDAO locationDAO; //[powinno zwracać listę]
 
     {
         try {
@@ -28,15 +28,14 @@ public class LocationManager {
     }
 
     public void printList() {
-
-        //System.out.println(locationDAO.getLocations());
+        locations = locationDAO.readAll();
 
         TablePrinter<Location> tablePrinter = new TablePrinter<Location>()
                 .withData(locations)
-                .withColumn("ID", location -> ((Location) location).getId())
-                .withColumn("Współrzędne", location -> ((Location) location).getGPS_location())
-                .withColumn("Kraj", location -> ((Location) location).getCountryCode())
-                .withColumn("Nazwa", location -> ((Location) location).getName());
+                .withColumn("ID", Location::getId)
+                .withColumn("Współrzędne", Location::getGPS_location)
+                .withColumn("Kraj", Location::getCountryCode)
+                .withColumn("Nazwa", Location::getName);
 
         tablePrinter.printTable();
 

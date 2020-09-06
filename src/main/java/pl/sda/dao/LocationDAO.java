@@ -3,6 +3,7 @@ package pl.sda.dao;
 import pl.sda.model.Location;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationDAO {
@@ -16,12 +17,13 @@ public class LocationDAO {
     private static final String URL = "jdbc:mysql://localhost:3306/weatherbot?serverTimezone=Europe/Warsaw";
     private static final String USER = "weatherbot";
     private static final String PASSWORD = "weatherbot";
-    private Connection dbConnection = DriverManager.getConnection(URL, USER, PASSWORD);;
+    private final Connection dbConnection = DriverManager.getConnection(URL, USER, PASSWORD);
 
     public LocationDAO() throws SQLException {
 
 
     }
+
     public boolean create(Location location) {//works
         try {
             PreparedStatement statement = dbConnection.prepareStatement(
@@ -44,8 +46,8 @@ public class LocationDAO {
         try (
                 PreparedStatement statement = dbConnection.prepareStatement(
                         "SELECT * FROM Location\n" +
-                                "WHERE id=?;");
-        ){
+                                "WHERE id=?;")
+        ) {
             statement.setInt(1, id);
             statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
             ResultSet resultSet = statement.getResultSet();
@@ -60,16 +62,46 @@ public class LocationDAO {
             e.printStackTrace();
             return new Location();
         }
-//        locations.add(new Location(
-//                this.Id,
-//                this.name,
-//                this.countryCode,
-//                this.GPS_location));
+        locations.add(new Location(
+                this.Id,
+                this.name,
+                this.countryCode,
+                this.GPS_location));
         return new Location(
                 this.Id,
                 this.name,
                 this.countryCode,
                 this.GPS_location);
+    }
+
+    public List<Location> readAll() {
+        locations = new ArrayList<>();
+
+        try (
+                PreparedStatement statement = dbConnection.prepareStatement(
+                        "SELECT * FROM Location;")
+        ) {
+            //statement.setInt(1, id);
+            statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
+            ResultSet resultSet = statement.getResultSet();
+            while (resultSet.next()) {
+                this.name = resultSet.getString("name");
+                this.Id = resultSet.getString("Id");
+                this.countryCode = resultSet.getString("country_code");
+                this.GPS_location = resultSet.getString("GPS_location");
+
+                locations.add(new Location(
+                        this.Id,
+                        this.name,
+                        this.countryCode,
+                        this.GPS_location));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return locations;
+        }
+        return locations;
     }
 
     public boolean update(int id, Location location) {
@@ -79,7 +111,7 @@ public class LocationDAO {
                         "SET name = ?," +
                         "country_code = ?," +
                         "GPS_location = ?," +
-                        "WHERE id = ?;");) {
+                        "WHERE id = ?;")) {
             statement.setString(1, location.getName());
             statement.setString(2, location.getCountryCode());
             statement.setString(3, location.getGPS_location());
@@ -98,7 +130,7 @@ public class LocationDAO {
         try (
                 PreparedStatement statement = dbConnection.prepareStatement(
                         "DELETE FROM Location\n" +
-                                "WHERE id=?;");) {
+                                "WHERE id=?;")) {
             statement.setInt(1, id);
             statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
 

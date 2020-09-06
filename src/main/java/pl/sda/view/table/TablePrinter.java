@@ -9,16 +9,16 @@ public class TablePrinter<T> {
     private static final int MAX_COLUMN_SIZE = 15;
     private static final int MAX_TABLE_SIZE = 100;
     private List<T> data;
-    private List<ColumnPrinter> columns = new ArrayList<>();
+    private List<ColumnPrinter<T>> columns = new ArrayList<>();
 
-    public TablePrinter withData(List<T> list) {
+    public TablePrinter<T> withData(List<T> list) {
         // only first MAX_TABLE_SIZE rows are printed
         data = list.subList(0, Math.min(list.size(), MAX_TABLE_SIZE));
         return this;
     }
 
-    public TablePrinter withColumn(String headerName, Function<T, String> getValueFunction) {
-        columns.add(new ColumnPrinter(headerName, getValueFunction));
+    public TablePrinter<T> withColumn(String headerName, Function<T, String> getValueFunction) {
+        columns.add(new ColumnPrinter<>(headerName, getValueFunction));
         return this;
     }
 
@@ -51,7 +51,7 @@ public class TablePrinter<T> {
 
     private void generateHeaderRow(StringBuilder stringBuilder) {
         stringBuilder.append("|");
-        for (ColumnPrinter columnPrinter : columns) {
+        for (ColumnPrinter<T> columnPrinter : columns) {
             stringBuilder.append(decorateValue(columnPrinter.header));
             stringBuilder.append("|");
         }
@@ -61,8 +61,8 @@ public class TablePrinter<T> {
 
     private void generateRow(StringBuilder stringBuilder, T dataRow) {
         stringBuilder.append("|");
-        for (ColumnPrinter columnPrinter : columns) {
-            stringBuilder.append(decorateValue((String) columnPrinter.getValueFunction.apply(dataRow)));
+        for (ColumnPrinter<T> columnPrinter : columns) {
+            stringBuilder.append(decorateValue(columnPrinter.getValueFunction.apply(dataRow)));
             stringBuilder.append("|");
         }
         stringBuilder.append(System.lineSeparator());
@@ -75,11 +75,11 @@ public class TablePrinter<T> {
     }
 
 
-    private static class ColumnPrinter {
+    private static class ColumnPrinter<T> {
         private String header;
-        private Function getValueFunction;
+        private Function<T, String> getValueFunction;
 
-        public ColumnPrinter(String header, Function getValueFunction) {
+        public ColumnPrinter(String header, Function<T, String> getValueFunction) {
             this.header = header;
             this.getValueFunction = getValueFunction;
         }
