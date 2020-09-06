@@ -1,3 +1,5 @@
+//MAIN ZA KAŻDYM RAZEM TWORZY ENCJĄ TABELĘ OD PODSTAW (PUSTĄ) NAPRAWIĆ!!!
+
 package pl.sda;
 
 import pl.sda.service.EntityService;

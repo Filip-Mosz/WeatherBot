@@ -60,11 +60,11 @@ public class LocationDAO {
             e.printStackTrace();
             return new Location();
         }
-        locations.add(new Location(
-                this.Id,
-                this.name,
-                this.countryCode,
-                this.GPS_location));
+//        locations.add(new Location(
+//                this.Id,
+//                this.name,
+//                this.countryCode,
+//                this.GPS_location));
         return new Location(
                 this.Id,
                 this.name,
