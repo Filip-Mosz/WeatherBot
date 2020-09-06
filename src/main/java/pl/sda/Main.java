@@ -1,5 +1,6 @@
 package pl.sda;
 
+import pl.sda.dto.LocationDTO;
 import pl.sda.service.EntityService;
 import pl.sda.view.ConsoleManager;
 
@@ -10,6 +11,7 @@ public class Main {
 
 
         ConsoleManager consoleManager = new ConsoleManager();
+
         consoleManager.start();
 
 

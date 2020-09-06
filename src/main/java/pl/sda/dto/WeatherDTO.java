@@ -21,3 +21,4 @@ public class WeatherDTO {
     private float windSpeed;
 
 }
+//https://sdacademy.pl/poradnik-absolwenta/deserializacja-jsona-w-javie/
