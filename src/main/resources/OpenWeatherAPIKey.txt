@@ -1,0 +1,13 @@
+62e8e14917f87e5db0d505a8f50b4449 (authorised)
+key name: WeatherBot
+
+439d4b804bc8187953eb36d2a8c26a02
+
+Login dinen
+password nornwaith
+
+exaple for Gdańsk
+api.openweathermap.org/data/2.5/weather?id=3099434&appid=62e8e14917f87e5db0d505a8f50b4449
+
+main page
+https://developer.accuweather.com/
