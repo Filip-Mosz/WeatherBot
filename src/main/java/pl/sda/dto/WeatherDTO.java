@@ -5,20 +5,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherDTO {
 //    @JsonProperty("coord") //może się przydać dla upewnienia, że to pogoda dla wybranej lokacji
 //    private CoordinatesDTO coordinates;
-    @JsonProperty("main:temp")
+    @JsonProperty("temp")
     private float temperature;
-    @JsonProperty("main:pressure")
+    @JsonProperty("pressure")
     private float pressure;
-    @JsonProperty("wind:deg")
+    @JsonProperty("deg")
     private int windDirection;
-    @JsonProperty("wind:speed")
+    @JsonProperty("speed")
     private float windSpeed;
 
 }
 //https://sdacademy.pl/poradnik-absolwenta/deserializacja-jsona-w-javie/
+
+// {} obiekt
+// [] lista

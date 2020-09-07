@@ -1,0 +1,13 @@
+JSON z wynikami sk³¹da siê z:
+
+obiektu coord
+listy weather
+pola base
+obiektu main (ten mnie interesuje 2 pola)
+obiektu wind (ten interesuje mnie jako ca³oœæ)
+obiektu clouds
+pola dt
+obiektu sys
+pola id (id miasta)
+pola name (nazwa miasta)
+pola cod
