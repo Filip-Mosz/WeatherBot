@@ -19,7 +19,7 @@ public class JsonCheck {
                 "\"speed\":999\n" +
                 //"\"splid\":777\n" +
                 "}";
-        WeatherDTO weather = DataMapper.mapJsonToWeatherDTO(hand);
-        System.out.println(weather.getPressure());
+        WeatherDTO weather = DataMapper.mapJsonToWeatherDTO(check);
+        System.out.println(weather.getVisibility());
     }
 }
