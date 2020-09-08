@@ -29,8 +29,6 @@ public class LocationDTO {
     final String PATH = "src/main/resources/city.list.json";
 
     public String JSONGetter(String path) {//excepts trashcode it works
-        ObjectMapper mapper = new ObjectMapper();
-        Location location = new Location();
         try {
             final URL testUrl = new URL(path);
             StringBuilder jsonText = new StringBuilder();
@@ -49,7 +47,7 @@ public class LocationDTO {
         }
     }
 
-    public String JSONGetter() {//excepts trashcode it works
+    public String JSONGetterTEST() {//excepts trashcode it works
         ObjectMapper mapper = new ObjectMapper();
         Location location = new Location();
         try {
@@ -68,11 +66,7 @@ public class LocationDTO {
             e.printStackTrace();
             return null;
         }
-//        try {
-//            mapper.writeValue(new URL("https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=62e8e14917f87e5db0d505a8f50b4449"), WeatherDTO);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
+
     }
 
     @Override

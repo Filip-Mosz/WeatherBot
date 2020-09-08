@@ -22,3 +22,8 @@ public class Main {
 }
 //dto=model
 //komunikacja z bazą w pakiecie dao
+//
+//TODO LocationDTO check przygotować na przyjęcie zewnętrznego URLa; zawrzeć APIkey w stałej, przyjmować nazwę miasta i pobierać z listy jego id
+//TODO zmniejszyć ilość pół w WeatherDTO i przygotować WeatherDAO(zawrzeć czas requesta)
+//TODO posprzątać ten chlew -> wywalić niepotrebne klasy
+//TODO testy na wszystko; w razie potrzeby refactor metod

@@ -7,7 +7,7 @@ import pl.sda.inbound.DataMapper;
 public class JsonCheck {
     public static void main(String[] args) {
         LocationDTO dtoCheck = new LocationDTO();
-        String check = dtoCheck.JSONGetter();
+        String check = dtoCheck.JSONGetterTEST();
         System.out.println(check);
 
 
@@ -20,6 +20,6 @@ public class JsonCheck {
                 //"\"splid\":777\n" +
                 "}";
         WeatherDTO weather = DataMapper.mapJsonToWeatherDTO(check);
-        System.out.println(weather.getVisibility());
+        System.out.println(weather.getId());
     }
 }
