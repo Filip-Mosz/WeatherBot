@@ -1,5 +1,6 @@
 package pl.sda.dto.JSON;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 

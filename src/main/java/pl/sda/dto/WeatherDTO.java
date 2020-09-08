@@ -13,7 +13,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value ={"sys", "base"})
 public class WeatherDTO {
     @JsonProperty("coord") //może się przydać dla upewnienia, że to pogoda dla wybranej lokacji
     private CoordinatesDTO coordinates;
@@ -21,17 +22,21 @@ public class WeatherDTO {
     List<Object> weatherConditions; //obiekt 0 i Obiekt base
     @JsonProperty("main") //
     private TemperatureDTO temperature;
-    //@JsonProperty("visibility") //what if i comment it out?
+    @JsonProperty("visibility")
     private long visibility;
     @JsonProperty("wind")
     private WindDTO windDTO;
     @JsonProperty("clouds")
     private CloudsDTO cloudsDTO;
+    @JsonProperty("dt")
     private int dt;
     @JsonProperty("sys")
     private SystemDTO systemDTO;
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("cod")
     private int cod;
 
 }
