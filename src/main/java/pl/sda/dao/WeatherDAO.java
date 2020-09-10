@@ -1,17 +1,11 @@
 package pl.sda.dao;
 
 import pl.sda.model.Location;
-import pl.sda.model.Temperature;
-import pl.sda.model.Wind;
+import pl.sda.model.Weather;
 import pl.sda.service.ConnectionDB;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.*;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,97 +19,119 @@ public class WeatherDAO {
     // Wind
     private float windSpeed;
     private int windDegree;
+    //    @ManyToOne
     private int id;
     @Id
-    private LocalDate forecastedDay;
+    private Date forecastedDay;
     @Transient //pomija pole przy tworzeniu encji
     private final Connection dbConnection = ConnectionDB.create();
+    @Transient
+    private List<Weather> forecasts;
 
 
-    public boolean create(Location location) {//refactor
+    public boolean create(Weather weather) {
         try {
             PreparedStatement statement = dbConnection.prepareStatement(
-                    "INSERT INTO Location (Id, GPS_location, country_code, name)" +
-                            "VALUES (?,?,?,?);");
-            statement.setString(1, location.getId());
-            statement.setString(2, location.getGPS_location());
-            statement.setString(3, location.getCountryCode());
-            statement.setString(4, location.getName());
+                    "INSERT INTO weatherdao (forecastedDay, humidity, id, pressure, temp, winddegree, windSpeed)" +
+                            "VALUES (?,?,?,?,?,?,?);");
+
+            statement.setString(1, weather.getForcastedDay());
+            statement.setInt(2, weather.getHumidity());
+            statement.setInt(3, weather.getId());
+            statement.setInt(4, weather.getPressure());
+            statement.setFloat(5, weather.getTemp());
+            statement.setInt(6, weather.getWindDegree());
+            statement.setFloat(7, weather.getWindSpeed());
             statement.executeUpdate();//ZAJEBISCIE WAZNA LINIJKA!!!!!
             statement.close();
         } catch (SQLException e) {
-            System.err.print("DataBase Error! Conditions reading not added");
+            System.err.print("DataBase Error! Forecast reading not added");
             return false;
         }
         return true;
     }
 
-//    public Location read(int id) {
-//        try (
-//                PreparedStatement statement = dbConnection.prepareStatement(
-//                        "SELECT * FROM Location\n" +
-//                                "WHERE id=?;")
-//        ) {
-//            statement.setInt(1, id);
-//            statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
-//            ResultSet resultSet = statement.getResultSet();
-//            while (resultSet.next()) {
-//                this.name = resultSet.getString("name");
-//                this.Id = resultSet.getString("Id");
-//                this.countryCode = resultSet.getString("country_code");
-//                this.GPS_location = resultSet.getString("GPS_location");
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return new Location();
-//        }
-//        locations.add(new Location(
-//                this.Id,
-//                this.name,
-//                this.countryCode,
-//                this.GPS_location));
-//        return new Location(
-//                this.Id,
-//                this.name,
-//                this.countryCode,
-//                this.GPS_location);
-//    }
-//
-//    public List<Location> readAll() {
-//        locations = new ArrayList<>();
-//
-//        try (
-//                PreparedStatement statement = dbConnection.prepareStatement(
-//                        "SELECT * FROM Location;")
-//        ) {
-//            //statement.setInt(1, id);
-//            statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
-//            ResultSet resultSet = statement.getResultSet();
-//            while (resultSet.next()) {
-//                this.name = resultSet.getString("name");
-//                this.Id = resultSet.getString("Id");
-//                this.countryCode = resultSet.getString("country_code");
-//                this.GPS_location = resultSet.getString("GPS_location");
-//
-//                locations.add(new Location(
-//                        this.Id,
-//                        this.name,
-//                        this.countryCode,
-//                        this.GPS_location));
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return locations;
-//        }
-//        return locations;
-//    }
+    public Weather read(Location location) {
+        try (
+                PreparedStatement statement = dbConnection.prepareStatement(
+                        "SELECT * FROM weatherdao\n" +
+                                "WHERE id=?;")
+        ) {
+            statement.setString(1, location.getId());
+            statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
+            ResultSet resultSet = statement.getResultSet();
+            while (resultSet.next()) {
+                this.temp = resultSet.getInt("temp");
+                this.pressure = resultSet.getInt("pressure");
+                this.humidity = resultSet.getInt("humidity");
+                this.windSpeed = resultSet.getFloat("windspeed");
+                this.windDegree = resultSet.getInt("winddegree");
+                this.id = resultSet.getInt("id");
+                this.forecastedDay = resultSet.getDate("forecastedday");
+            }
 
-    public boolean update(int id, Location location) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Weather();
+        }
+        forecasts.add(new Weather(
+                this.temp,
+                this.pressure,
+                this.humidity,
+                this.windSpeed,
+                this.windDegree,
+                this.id,
+                this.forecastedDay));
+        return new Weather(
+                this.temp,
+                this.pressure,
+                this.humidity,
+                this.windSpeed,
+                this.windDegree,
+                this.id,
+                this.forecastedDay);
+    }
+
+    public List<Weather> readAll() {
+        forecasts = new ArrayList<>();
+
+        try (
+                PreparedStatement statement = dbConnection.prepareStatement(
+                        "SELECT * FROM weatherdao;")
+        ) {
+            //statement.setInt(1, id);
+            statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
+            ResultSet resultSet = statement.getResultSet();
+            while (resultSet.next()) {
+                this.temp = resultSet.getInt("temp");
+                this.pressure = resultSet.getInt("pressure");
+                this.humidity = resultSet.getInt("humidity");
+                this.windSpeed = resultSet.getFloat("windspeed");
+                this.windDegree = resultSet.getInt("winddegree");
+                this.id = resultSet.getInt("id");
+                this.forecastedDay = resultSet.getDate("forecastedday");
+
+                forecasts.add(new Weather(
+                        this.temp,
+                        this.pressure,
+                        this.humidity,
+                        this.windSpeed,
+                        this.windDegree,
+                        this.id,
+                        this.forecastedDay));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return forecasts;
+        }
+        return forecasts;
+    }
+
+    public boolean update(int id, Location location) {//refactor
 
         try (PreparedStatement statement = dbConnection.prepareStatement(
-                "UPDATE Location " +
+                "UPDATE weatherdao " +
                         "SET name = ?," +
                         "country_code = ?," +
                         "GPS_location = ?," +
@@ -134,12 +150,12 @@ public class WeatherDAO {
         return true;
     }
 
-    public boolean delete(int id) {
+    public boolean delete(Location location) {
         try (
                 PreparedStatement statement = dbConnection.prepareStatement(
-                        "DELETE FROM Location\n" +
+                        "DELETE FROM weatherdao\n" +
                                 "WHERE id=?;")) {
-            statement.setInt(1, id);
+            statement.setString(1, location.getId());
             statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
 
 

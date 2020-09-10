@@ -15,7 +15,6 @@ public class Main {
         ConsoleManager consoleManager = new ConsoleManager();
 
         consoleManager.start();
-        WeatherDAO weatherDAO = new WeatherDAO();
 
 
         EntityService.close();
@@ -26,9 +25,10 @@ public class Main {
 //dto=model
 //komunikacja z bazą w pakiecie dao
 //
-//TODO LocationDTO check przygotować na przyjęcie zewnętrznego URLa; zawrzeć APIkey w stałej, przyjmować nazwę miasta i pobierać z listy jego id
+//TODO zawrzeć APIkey w stałej, przyjmować nazwę miasta i pobierać z listy jego id
 //TODO request pogody: user wpisuje nazwę; na liście lokacji szukamy nazwy i element.getId; id wysyłamy weatherDao jako argument funkcji getForcast
-//TODO WeatherDAO.read ma generować listę odczytów wykonanych dla danej lokalizacji
+//TODO przemodelować encję weaterDao na nowego jsona
+//TODO odwołania do JSONGetter podmienić na odwołania JsonService.get();
 //TODO posprzątać ten chlew -> wywalić niepotrebne klasy
 //TODO testy na wszystko; w razie potrzeby refactor metod
 

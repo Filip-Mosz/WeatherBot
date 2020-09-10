@@ -8,14 +8,12 @@ import javax.persistence.Column;
 
 @Getter
 @Setter
-@JsonIgnoreProperties(value = {"temp_min", "temp_max"})
+@JsonIgnoreProperties(value = {"min", "max", "eve", "morn"})
 public class TemperatureDTO {
-    @Column(name = "temperature")
-    private Float temp; //K -> C
-    @Column(name = "pressure")
-    private Integer pressure;
-    @Column(name = "humidity")
-    private Integer humidity;
+    @Column(name = "temperature_day")
+    private Float day; //K -> C
+    @Column(name = "temperature_night")
+    private Integer night; //K -> C
 
 
 }

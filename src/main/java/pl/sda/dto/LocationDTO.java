@@ -9,7 +9,6 @@ import pl.sda.model.Location;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -51,7 +50,9 @@ public class LocationDTO {
         ObjectMapper mapper = new ObjectMapper();
         Location location = new Location();
         try {
-            final URL testUrl = new URL("https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=62e8e14917f87e5db0d505a8f50b4449");
+            final URL testUrl = new URL("https://api.openweathermap.org/data/2.5/onecall?" +
+                    "lat=54.361099&lon=18.689699&exclude=current,hourly,minutely&" +
+                    "appid=62e8e14917f87e5db0d505a8f50b4449");
             StringBuilder jsonText = new StringBuilder();
             try (InputStream myInputStream = testUrl.openStream();
                  Scanner scan = new Scanner(myInputStream)
@@ -79,5 +80,3 @@ public class LocationDTO {
                 '}';
     }
 }
-//ToDo wyciągnąć kod ciągnący jsony do osobnej klasy i przemodelować, żeby dał się tam wepchnąć id miasta i wyciągać w ten sposób wyniki pogodowe
-//TODO po odczycie stanu pogodowego jsonem przygotować klasę, która wynik wyśle do bazy

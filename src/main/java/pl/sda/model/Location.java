@@ -5,9 +5,8 @@ import lombok.NonNull;
 import lombok.Setter;
 import pl.sda.dao.WeatherDAO;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,6 +32,8 @@ private String GPS_location;
 @Column(name = "country_code")
 private String countryCode;
 
-private WeatherDAO forecast;
+@OneToMany
+@JoinColumn (name = "City_id")
+private List<WeatherDAO> forecast;
 
 }

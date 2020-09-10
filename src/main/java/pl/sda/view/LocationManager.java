@@ -1,7 +1,6 @@
 package pl.sda.view;
 
 import pl.sda.dao.LocationDAO;
-import pl.sda.model.Coordinates;
 import pl.sda.model.Location;
 import pl.sda.service.EntityService;
 import pl.sda.service.LocationMenu;
@@ -12,7 +11,6 @@ import javax.persistence.EntityTransaction;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class LocationManager {
     private List<Location> locations = new ArrayList<>();

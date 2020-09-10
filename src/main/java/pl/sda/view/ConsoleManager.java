@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class ConsoleManager {
 
     private LocationManager locationManager = new LocationManager();
+    private WeatherManager weatherManager = new WeatherManager();
 
     public void start() {
         char userChoice = ' ';
@@ -47,7 +48,8 @@ public class ConsoleManager {
                 break;
             case '2':
                 locationManager.addLocation();
-
+            case '3':
+                weatherManager.checkForecast();
         }
     }
 
