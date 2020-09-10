@@ -7,18 +7,26 @@ import lombok.Setter;
 import pl.sda.dto.JSON.TemperatureDTO;
 import pl.sda.dto.JSON.WindDTO;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.time.LocalDate;
+
 @Getter
 @Setter
-@JsonIgnoreProperties(value ={"weather", "sys", "base", "clouds", "dt", "name", "cod", "visibility"})
+@JsonIgnoreProperties(value ={"coord", "weather", "sys", "base", "clouds", "dt", "name", "cod", "visibility"})
+//@Entity(name = "conditions")
 public class WeatherDTO {
-    @JsonProperty("coord") //może się przydać dla upewnienia, że to pogoda dla wybranej lokacji
-    private CoordinatesDTO coordinates;
-    @JsonProperty("main") //
+    @JsonProperty("main")
+    @Column(name = "temperature")
     private TemperatureDTO temperature;
     @JsonProperty("wind")
+    @Column(name = "wind")
     private WindDTO windDTO;
     @JsonProperty("id")
     private int id;
+
+    private LocalDate forcastedDay;
 }
 
 

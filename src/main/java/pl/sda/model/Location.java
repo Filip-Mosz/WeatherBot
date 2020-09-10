@@ -3,6 +3,7 @@ package pl.sda.model;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import pl.sda.dao.WeatherDAO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,5 +32,7 @@ private String GPS_location;
 @NonNull
 @Column(name = "country_code")
 private String countryCode;
+
+private WeatherDAO forecast;
 
 }

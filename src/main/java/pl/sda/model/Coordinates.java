@@ -1,4 +1,3 @@
-//todo zmienić zastosowanie: ma przetwarzać string na dane w formacie z json'a z accuweather
 package pl.sda.model;
 
 import lombok.Getter;

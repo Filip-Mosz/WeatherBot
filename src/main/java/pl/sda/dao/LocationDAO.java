@@ -1,18 +1,21 @@
 package pl.sda.dao;
 
 import pl.sda.model.Location;
+import pl.sda.service.ConnectionDB;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LocationDAO {
+
     private String Id;
     private String name;
     private String GPS_location;
     private String countryCode;
 
     private List<Location> locations;
+    //private final Connection dbConnection = ConnectionDB.create();
 
     private static final String URL = "jdbc:mysql://localhost:3306/weatherbot?serverTimezone=Europe/Warsaw";
     private static final String USER = "weatherbot";

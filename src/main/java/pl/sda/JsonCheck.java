@@ -20,6 +20,6 @@ public class JsonCheck {
                 //"\"splid\":777\n" +
                 "}";
         WeatherDTO weather = DataMapper.mapJsonToWeatherDTO(check);
-        System.out.println(weather.getId());
+        System.out.println(weather.getTemperature().getTemp());
     }
 }
