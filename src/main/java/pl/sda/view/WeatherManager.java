@@ -84,6 +84,9 @@ public class WeatherManager {
         url.append("&exclude=current,hourly,minutely&appid=62e8e14917f87e5db0d505a8f50b4449");
         EntityService.create();
 
+        EntityManager entityManager = EntityService.entityManagerFactory().createEntityManager();
+        EntityTransaction transaction = EntityService.entityManagerFactory().createEntityManager().getTransaction();
+
         String check = null;
         try {
             check = WeatherDataProvider.requestCurrentData(url.toString());
@@ -113,14 +116,13 @@ public class WeatherManager {
                 forecastedDay
         ));
 
-        EntityManager entityManager = EntityService.entityManagerFactory().createEntityManager();
-        EntityTransaction transaction = EntityService.entityManagerFactory().createEntityManager().getTransaction();
+
         transaction.begin();
         weatherDAO.create(addedWeather);
         entityManager.persist(addedWeather);
         transaction.commit();
         EntityService.close();
-//
+
         printList();
     }
 
