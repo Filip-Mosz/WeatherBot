@@ -4,13 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pl.sda.dto.LocationDTO;
 import pl.sda.dto.WeatherDTO;
-import pl.sda.model.Location;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 public class DataMapper {
 
@@ -24,6 +17,7 @@ public class DataMapper {
         }
         return LocationDTO;
     }
+
     public static WeatherDTO mapJsonToWeatherDTO(String json) {
         ObjectMapper objectMapper = new ObjectMapper();
         WeatherDTO weatherDTO = null;

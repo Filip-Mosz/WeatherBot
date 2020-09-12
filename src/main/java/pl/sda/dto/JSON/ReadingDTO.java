@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ReadingDTO {
-    @JsonIgnoreProperties(value = {"dt", "sunrise", "sunset", "feels_like", "humidity", "dew_point", "weather", "clouds", "pop", "rain"})
+    @JsonIgnoreProperties(value = {"uvi", "dt", "sunrise", "sunset", "feels_like", "humidity", "dew_point", "weather", "clouds", "pop", "rain"})
     //@JsonIgnoreProperties(ignoreUnknown = true)
     @JsonProperty("dt")
     private int dt;
@@ -42,6 +42,8 @@ public class ReadingDTO {
     private double pop;
     @JsonProperty("rain")
     private double rain;
+    @JsonProperty("uvi")
+    private double uvi;
 
 
 

@@ -49,12 +49,14 @@ public class ConsoleManager {
                 break;
             case '2':
                 locationManager.addLocation();
+                break;
             case '3':
                 try {
                     weatherManager.checkForecast();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
+                break;
         }
     }
 

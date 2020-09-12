@@ -97,8 +97,8 @@ public class LocationDAO {
                 locations.add(new Location(
                         this.Id,
                         this.name,
-                        this.countryCode,
-                        this.GPS_location));
+                        this.GPS_location,
+                        this.countryCode));
             }
 
         } catch (SQLException e) {

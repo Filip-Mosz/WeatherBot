@@ -15,13 +15,13 @@ public class Weather {
     // Wind
     private float windSpeed;
     private String windDirection;
-    private int cityId;
+    private String cityId;
     private Date forecastedDay;
 
     public Weather() {
     }
 
-    public Weather(float tempDay, float tempNight, float pressure, float humidity, float windSpeed, String windDirection, int cityId, Date forecastedDay) {
+    public Weather(float tempDay, float tempNight, float pressure, float humidity, float windSpeed, String windDirection, String cityId, Date forecastedDay) {
         this.tempDay = tempDay;
         this.tempNight = tempNight;
         this.pressure = pressure;
