@@ -8,14 +8,19 @@ import pl.sda.inbound.DataMapper;
 import pl.sda.inbound.WeatherDataProvider;
 import pl.sda.model.Location;
 import pl.sda.model.Weather;
+import pl.sda.service.EntityService;
 import pl.sda.view.table.TablePrinter;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.Instant;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.*;
+import java.util.ArrayList;
+//import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 public class WeatherManager {
     private static List<Weather> forecasts = new ArrayList<>();
@@ -77,6 +82,7 @@ public class WeatherManager {
         url.append("&lon=");
         url.append(lon);
         url.append("&exclude=current,hourly,minutely&appid=62e8e14917f87e5db0d505a8f50b4449");
+        EntityService.create();
 
         String check = null;
         try {
@@ -93,8 +99,9 @@ public class WeatherManager {
         Date forecastedDay = new Date(tomorrow.getYear(),
                 tomorrow.getMonthValue(),
                 tomorrow.getDayOfMonth());
-        System.out.println("Weather forecast for " + forecastedDay);
-
+        //System.out.println("Weather forecast for " + forecastedDay);
+        addedWeather.setCityId(location.getId());
+        addedWeather.setForecastedDay(forecastedDay);
         forecasts.add(new Weather(
                 addedWeather.getTempDay(),
                 addedWeather.getTempNight(),
@@ -105,6 +112,14 @@ public class WeatherManager {
                 location.getId(),
                 forecastedDay
         ));
+
+        EntityManager entityManager = EntityService.entityManagerFactory().createEntityManager();
+        EntityTransaction transaction = EntityService.entityManagerFactory().createEntityManager().getTransaction();
+        transaction.begin();
+        weatherDAO.create(addedWeather);
+        entityManager.persist(addedWeather);
+        transaction.commit();
+        EntityService.close();
 //
         printList();
     }
