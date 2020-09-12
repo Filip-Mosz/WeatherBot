@@ -1,6 +1,7 @@
 package pl.sda.view;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ConsoleManager {
@@ -49,7 +50,11 @@ public class ConsoleManager {
             case '2':
                 locationManager.addLocation();
             case '3':
-                weatherManager.checkForecast();
+                try {
+                    weatherManager.checkForecast();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
         }
     }
 

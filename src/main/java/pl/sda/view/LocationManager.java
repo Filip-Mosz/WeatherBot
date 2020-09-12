@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocationManager {
+    public List<Location> getLocations() {
+        return locations;
+    }
+
     private List<Location> locations = new ArrayList<>();
 
 

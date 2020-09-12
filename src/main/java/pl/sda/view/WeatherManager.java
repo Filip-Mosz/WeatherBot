@@ -10,12 +10,11 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class WeatherManager {
     private List<Weather> forecasts = new ArrayList<>();
+    private List<Weather> locations = new ArrayList<>();
 
     private WeatherDAO weatherDAO;
 
@@ -33,17 +32,37 @@ public class WeatherManager {
                 .withColumn("Cieśnienie", Weather::getStringValueOfPressure)
                 .withColumn("Wilgotność", Weather::getStringValueOfHumidity)
                 .withColumn("Prędkość wiatru", Weather::getStringValueOfWindSpeed)
-                .withColumn("Kierunek wiatru", Weather::getStringValueOfWindDegree);
+                .withColumn("Kierunek wiatru", Weather::getWindDirection);
 
         tablePrinter.printTable();
 
     }
 
-    public void checkForecast(){
 
-        Date forcastedDay = new Date(LocalDate.now().getYear(),
-                LocalDate.now().getMonthValue(),
-                LocalDate.now().getDayOfMonth());
-        System.out.println(forcastedDay);
+    public void checkForecast() throws SQLException {
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        Date forecastedDay = new Date(tomorrow.getYear(),
+                tomorrow.getMonthValue(),
+                tomorrow.getDayOfMonth());
+        Scanner scan = new Scanner(System.in);
+        LocationDAO locationDAO = new LocationDAO();
+        List<Location> locationList = locationDAO.readAll();
+
+
+        System.out.println("Weather forecast for " + forecastedDay);
+
+        System.out.println("wpisz lokację");
+        String locationName = scan.nextLine();
+        for (int i = 0; i<locationList.size(); i++){
+            if ((locationList.get(i)).getName() == locationName){
+
+                //tu operacje
+                System.out.println("It's alive");
+
+            }
+            else System.out.println("Nie odnaleziono lokacji o tej nazwie");
+        }
+
+
     }
 }

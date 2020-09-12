@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import pl.sda.dao.WeatherDAO;
-import pl.sda.dto.JSON.Reading;
 
 import javax.persistence.*;
 import java.util.List;
@@ -35,6 +34,6 @@ private String countryCode;
 
 @OneToMany
 @JoinColumn (name = "City_id")
-private List<Reading> forecast;
+private List<WeatherDAO> forecast;
 
 }

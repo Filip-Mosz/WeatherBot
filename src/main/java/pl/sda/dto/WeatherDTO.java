@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import pl.sda.dto.JSON.Reading;
+import pl.sda.dto.JSON.ReadingDTO;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties(value ={"lat","lon", "timezone", "timezone_offset"})
 public class WeatherDTO {
     @JsonProperty("daily")
-    private List<Reading> readingOfDay;
+    private List<ReadingDTO> readingDTOOfDay;
     //obiekt daily -> lista 1
 
 //    @Column(name = "temperature")

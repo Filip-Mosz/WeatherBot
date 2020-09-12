@@ -6,17 +6,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 
 @Getter
 @Setter
+@SecondaryTable(
+        name = "temperature",
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "temperature"))
 @JsonIgnoreProperties(value = {"min", "max", "eve", "morn"})
 public class TemperatureDTO {
     @Column(name = "temperature_day")
     @JsonProperty("day")
-    private Float day; //K -> C
+    private float day; //K -> C
     @Column(name = "temperature_night")
     @JsonProperty("night")
-    private Integer night; //K -> C
+    private float night; //K -> C
 
 
 }

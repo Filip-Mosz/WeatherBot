@@ -1,6 +1,6 @@
 package pl.sda;
 
-import pl.sda.dto.JSON.Reading;
+import pl.sda.dto.JSON.ReadingDTO;
 import pl.sda.dto.WeatherDTO;
 import pl.sda.inbound.DataMapper;
 
@@ -13,8 +13,8 @@ public class JsonCheck {
 
 
         WeatherDTO weather = DataMapper.mapJsonToWeatherDTO(check);
-        Reading reading = weather.getReadingOfDay().get(1);
-        System.out.println(reading.getPressure());
+        ReadingDTO readingDTO = weather.getReadingDTOOfDay().get(1);
+        System.out.println(readingDTO.getPressure());
 
 
 

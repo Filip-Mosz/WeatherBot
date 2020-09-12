@@ -1,46 +1,80 @@
 package pl.sda.dao;
 
+import lombok.Getter;
+import lombok.Setter;
+import pl.sda.dto.JSON.ReadingDTO;
 import pl.sda.model.Location;
 import pl.sda.model.Weather;
 import pl.sda.service.ConnectionDB;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class WeatherDAO {
-    //Temperature
-    private float temp; //in Kelwin
-    private int pressure;
-    private int humidity;
-    // Wind
+    @Column(name = "temp_day")
+    private float tempDay;
+    @Column(name = "temp_night")
+    private float tempNight;
+    private float pressure;
+    private float humidity;
+    @Column(name = "wind_direction")
+    private String windDirection;
+    @Column(name = "wind_speed")
     private float windSpeed;
-    private int windDegree;
-    //    @ManyToOne
-    private int id;
+    @Column(name = "day")
     @Id
     private Date forecastedDay;
+    @Column(name = "city_id")
+    private int cityId;
+//    //Temperature
+//    private float temp; //in Kelwin
+//    private int pressure;
+//    private int humidity;
+
+    //    //    @ManyToOne
+//    private int id;
+//    @Id
+//    private Date forecastedDay;
     @Transient //pomija pole przy tworzeniu encji
     private final Connection dbConnection = ConnectionDB.create();
     @Transient
     private List<Weather> forecasts;
 
 
-    public boolean create(Weather weather) {
+    public static WeatherDAO map(ReadingDTO readingDTO) {
+        WeatherDAO result = new WeatherDAO();
+
+        result.setTempDay(readingDTO.getTemp().getDay());
+        result.setTempNight(readingDTO.getTemp().getNight());
+        result.setPressure(readingDTO.getPressure());
+        result.setHumidity(readingDTO.getHumidity());
+        result.setWindDirection(readingDTO.getStringValueOfWind_deg());
+        result.setWindSpeed(readingDTO.getWind_speed());
+
+
+        return result;
+    }
+
+    public boolean create(WeatherDAO weather) {
         try {
             PreparedStatement statement = dbConnection.prepareStatement(
                     "INSERT INTO weatherdao (forecastedDay, humidity, id, pressure, temp, winddegree, windSpeed)" +
                             "VALUES (?,?,?,?,?,?,?);");
 
-            statement.setString(1, weather.getForcastedDay());
-            statement.setInt(2, weather.getHumidity());
-            statement.setInt(3, weather.getId());
-            statement.setInt(4, weather.getPressure());
-            statement.setFloat(5, weather.getTemp());
-            statement.setInt(6, weather.getWindDegree());
+            statement.setString(1, weather.getForecastedDay().toString());
+            statement.setFloat(2, weather.getHumidity());
+            statement.setInt(3, weather.getCityId());
+            statement.setFloat(4, weather.getPressure());
+            statement.setFloat(5, weather.getTempDay());
+            statement.setString(6, weather.getWindDirection());
             statement.setFloat(7, weather.getWindSpeed());
             statement.executeUpdate();//ZAJEBISCIE WAZNA LINIJKA!!!!!
             statement.close();
@@ -61,12 +95,13 @@ public class WeatherDAO {
             statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
             ResultSet resultSet = statement.getResultSet();
             while (resultSet.next()) {
-                this.temp = resultSet.getInt("temp");
+                this.tempDay = resultSet.getInt("temp_day");
+                this.tempNight = resultSet.getInt("temp_night");
                 this.pressure = resultSet.getInt("pressure");
                 this.humidity = resultSet.getInt("humidity");
-                this.windSpeed = resultSet.getFloat("windspeed");
-                this.windDegree = resultSet.getInt("winddegree");
-                this.id = resultSet.getInt("id");
+                this.windSpeed = resultSet.getFloat("wind_speed");
+                this.windDirection = resultSet.getString("wind_direction");
+                this.cityId = resultSet.getInt("id");
                 this.forecastedDay = resultSet.getDate("forecastedday");
             }
 
@@ -75,20 +110,31 @@ public class WeatherDAO {
             return new Weather();
         }
         forecasts.add(new Weather(
-                this.temp,
+                this.tempDay,
+                this.tempNight,
                 this.pressure,
                 this.humidity,
                 this.windSpeed,
-                this.windDegree,
-                this.id,
+                this.windDirection,
+                this.cityId,
                 this.forecastedDay));
+        //private float tempDay; //in Kelwin
+        //    private float tempNight;
+        //    private float pressure;
+        //    private float humidity;
+        //    // Wind
+        //    private float windSpeed;
+        //    private String windDirection;
+        //    private int cityId;
+        //    private Date forecastedDay;
         return new Weather(
-                this.temp,
+                this.tempDay,
+                this.tempNight,
                 this.pressure,
                 this.humidity,
                 this.windSpeed,
-                this.windDegree,
-                this.id,
+                this.windDirection,
+                this.cityId,
                 this.forecastedDay);
     }
 
@@ -103,21 +149,22 @@ public class WeatherDAO {
             statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
             ResultSet resultSet = statement.getResultSet();
             while (resultSet.next()) {
-                this.temp = resultSet.getInt("temp");
+                this.tempDay = resultSet.getInt("temp");
                 this.pressure = resultSet.getInt("pressure");
                 this.humidity = resultSet.getInt("humidity");
                 this.windSpeed = resultSet.getFloat("windspeed");
-                this.windDegree = resultSet.getInt("winddegree");
-                this.id = resultSet.getInt("id");
+                this.windDirection = resultSet.getString("winddegree");
+                this.cityId = resultSet.getInt("id");
                 this.forecastedDay = resultSet.getDate("forecastedday");
 
                 forecasts.add(new Weather(
-                        this.temp,
+                        this.tempDay,
+                        this.tempNight,
                         this.pressure,
                         this.humidity,
                         this.windSpeed,
-                        this.windDegree,
-                        this.id,
+                        this.windDirection,
+                        this.cityId,
                         this.forecastedDay));
             }
 
