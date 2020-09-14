@@ -18,12 +18,12 @@ import java.sql.SQLException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-//import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class WeatherManager {
     private static List<Weather> forecasts = new ArrayList<>();
+
     private List<Weather> locations = new ArrayList<>();
 
 
@@ -39,12 +39,34 @@ public class WeatherManager {
 
         TablePrinter<Weather> tablePrinter = new TablePrinter<Weather>()
                 .withData(forecasts)
-                .withColumn("Dzień", Weather::getForcastedDay)
-                .withColumn("Temperatura", Weather::getStringValueOfTemp)
-                .withColumn("Cieśnienie", Weather::getStringValueOfPressure)
-                .withColumn("Wilgotność", Weather::getStringValueOfHumidity)
+                .withColumn("Dzień", Weather::getForecastedDay)
+                //.withColumn("Miasto", Location::getNameStat)
+                .withColumn("Temperatura w dzień", Weather::getStringValueOfTempDay)
+                .withColumn("Temperatura w nocy", Weather::getStringValueOfTempNight)
                 .withColumn("Prędkość wiatru", Weather::getStringValueOfWindSpeed)
-                .withColumn("Kierunek wiatru", Weather::getWindDirection);
+                .withColumn("Kierunek wiatru", Weather::getWindDirection)
+                .withColumn("Ciśnienie", Weather::getStringValueOfPressure)
+                .withColumn("Wilgotność", Weather::getStringValueOfHumidity);
+
+        tablePrinter.printTable();
+
+    }
+
+    public void  printList(Location location) {
+        List<Weather> forecast = new ArrayList<>();
+        forecast.add(
+                weatherDAO.read(location));
+
+        TablePrinter<Weather> tablePrinter = new TablePrinter<Weather>()
+                .withData(forecast)
+                .withColumn("Dzień", Weather::getForecastedDay)
+                //.withColumn("Miasto", Location::getNameStat)
+                .withColumn("Temp. dzień", Weather::getStringValueOfTempDay)
+                .withColumn("Temp. noc", Weather::getStringValueOfTempNight)
+                .withColumn("Prędkość wiatru", Weather::getStringValueOfWindSpeed)
+                .withColumn("Kierunek wiatru", Weather::getWindDirection)
+                .withColumn("Ciśnienie", Weather::getStringValueOfPressure)
+                .withColumn("Wilgotność", Weather::getStringValueOfHumidity);
 
         tablePrinter.printTable();
 
@@ -63,12 +85,8 @@ public class WeatherManager {
         for (int i = 0; i < locationList.size(); i++) {
             if ((locationList.get(i).getName()).equals(locationName)) {
 
-                //tu operacje
-                System.out.println("It's alive");
-
                 WeatherManager weatherManager = new WeatherManager();
                         weatherManager.getForecast(locationList.get(i));
-
             }
         }
     }
@@ -81,7 +99,8 @@ public class WeatherManager {
         url.append(lat);
         url.append("&lon=");
         url.append(lon);
-        url.append("&exclude=current,hourly,minutely&appid=62e8e14917f87e5db0d505a8f50b4449");
+        url.append("&exclude=current,hourly,minutely&units=metric&appid=62e8e14917f87e5db0d505a8f50b4449");
+
         EntityService.create();
 
         EntityManager entityManager = EntityService.entityManagerFactory().createEntityManager();
@@ -102,7 +121,6 @@ public class WeatherManager {
         Date forecastedDay = new Date(tomorrow.getYear(),
                 tomorrow.getMonthValue(),
                 tomorrow.getDayOfMonth());
-        //System.out.println("Weather forecast for " + forecastedDay);
         addedWeather.setCityId(location.getId());
         addedWeather.setForecastedDay(forecastedDay);
         forecasts.add(new Weather(
@@ -123,7 +141,7 @@ public class WeatherManager {
         transaction.commit();
         EntityService.close();
 
-        printList();
+        printList(location);
     }
 
 

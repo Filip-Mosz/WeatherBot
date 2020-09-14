@@ -24,16 +24,20 @@ public class Location {
 
     @Id
     @NonNull
-private String Id;
+    private String Id;
     @NonNull
-private String name;
-private String GPS_location;
-@NonNull
-@Column(name = "country_code")
-private String countryCode;
+    public String name;
+    private String GPS_location;
+    @NonNull
+    @Column(name = "country_code")
+    private String countryCode;
 
-@OneToMany
-@JoinColumn (name = "City_id")
-private List<WeatherDAO> forecast;
+    @OneToMany
+    @JoinColumn(name = "City_id")
+    private List<WeatherDAO> forecast;
+
+    public String getNameStat(){
+           return String.valueOf(name);
+    }
 
 }

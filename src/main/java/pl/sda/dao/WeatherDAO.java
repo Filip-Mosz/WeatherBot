@@ -7,11 +7,10 @@ import pl.sda.model.Location;
 import pl.sda.model.Weather;
 import pl.sda.service.ConnectionDB;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,25 +28,22 @@ public class WeatherDAO {
     private String windDirection;
     @Column(name = "wind_speed")
     private float windSpeed;
-    @Column(name = "day")
     @Id
+    @Column(name = "request_time")
+    private String requestTime;
+    @Column(name = "day")
     private Date forecastedDay;
     @Column(name = "city_id")
     private String cityId;
-//    //Temperature
-//    private float temp; //in Kelwin
-//    private int pressure;
-//    private int humidity;
-
-    //    //    @ManyToOne
-//    private int id;
-//    @Id
-//    private Date forecastedDay;
     @Transient //pomija pole przy tworzeniu encji
     private final Connection dbConnection = ConnectionDB.create();
     @Transient
     private List<Weather> forecasts;
 
+    {
+        requestTime = LocalDateTime.now().toString();
+        forecasts = new ArrayList<>();
+    }
 
     public static WeatherDAO map(ReadingDTO readingDTO) {
         WeatherDAO result = new WeatherDAO();
@@ -64,19 +60,23 @@ public class WeatherDAO {
     }
 
     public boolean create(WeatherDAO weather) {
+        this.requestTime = LocalDateTime.now()
+                //.plusDays(1)
+                .format(DateTimeFormatter.ofPattern("MM-dd HH"));
         try {
             PreparedStatement statement = dbConnection.prepareStatement(
-                    "INSERT INTO weatherdao (day, humidity, city_id, pressure, temp_day, wind_direction, wind_speed, temp_night)" +
-                            "VALUES (?,?,?,?,?,?,?,?);");
+                    "INSERT INTO weatherdao (request_time, day, city_id, humidity, pressure, temp_day, temp_night, wind_direction, wind_speed)" +
+                            "VALUES (?,?,?,?,?,?,?,?,?);");
 
-            statement.setString(1, weather.getForecastedDay().toString());
-            statement.setFloat(2, weather.getHumidity());
+            statement.setString(1, weather.getRequestTime());
+            statement.setString(2, weather.getForecastedDay().toString());
             statement.setString(3, weather.getCityId());
-            statement.setFloat(4, weather.getPressure());
-            statement.setFloat(5, weather.getTempDay());
-            statement.setString(6, weather.getWindDirection());
-            statement.setFloat(7, weather.getWindSpeed());
-            statement.setFloat(8, weather.getTempNight());
+            statement.setFloat(4, weather.getHumidity());
+            statement.setFloat(5, weather.getPressure());
+            statement.setFloat(6, weather.getTempDay());
+            statement.setFloat(7, weather.getTempNight());
+            statement.setString(8, weather.getWindDirection());
+            statement.setFloat(9, weather.getWindSpeed());
             statement.executeUpdate();//ZAJEBISCIE WAZNA LINIJKA!!!!!
             statement.close();
         } catch (SQLException e) {
@@ -90,7 +90,7 @@ public class WeatherDAO {
         try (
                 PreparedStatement statement = dbConnection.prepareStatement(
                         "SELECT * FROM weatherdao\n" +
-                                "WHERE id=?;")
+                                "WHERE city_id=?;")
         ) {
             statement.setString(1, location.getId());
             statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
@@ -137,7 +137,6 @@ public class WeatherDAO {
                 PreparedStatement statement = dbConnection.prepareStatement(
                         "SELECT * FROM weatherdao;")
         ) {
-            //statement.setInt(1, id);
             statement.execute();//ZAJEBISCIE WAZNA LINIJKA!!!!!
             ResultSet resultSet = statement.getResultSet();
             while (resultSet.next()) {

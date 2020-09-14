@@ -8,7 +8,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class Weather {
-    private float tempDay; //in Kelwin
+    private float tempDay;
     private float tempNight;
     private float pressure;
     private float humidity;
@@ -32,12 +32,16 @@ public class Weather {
         this.forecastedDay = forecastedDay;
     }
 
-    public String getForcastedDay() {
+    public String getForecastedDay() {
         return forecastedDay.toString();
     }
 
-    public String getStringValueOfTemp() {
+    public String getStringValueOfTempDay() {
         return String.valueOf(tempDay);
+    }
+
+    public String getStringValueOfTempNight() {
+        return String.valueOf(tempNight);
     }
 
     public String getStringValueOfWindSpeed() {

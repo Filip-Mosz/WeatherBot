@@ -1,7 +1,6 @@
 package pl.sda.dao;
 
 import pl.sda.model.Location;
-import pl.sda.service.ConnectionDB;
 
 import java.sql.*;
 import java.util.ArrayList;
